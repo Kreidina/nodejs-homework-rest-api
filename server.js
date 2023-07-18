@@ -1,10 +1,6 @@
-// ezrOAv7dUpiHUL1w
-const app = require("./app");
-
 const mongoose = require("mongoose");
-
-const DB_HOST =
-  "mongodb+srv://Anna:ezrOAv7dUpiHUL1w@cluster0.7pwv9k5.mongodb.net/db-contacts?retryWrites=true&w=majority";
+const app = require("./app");
+const { DB_HOST } = require("./config");
 mongoose
   .connect(DB_HOST)
   .then(() => {
