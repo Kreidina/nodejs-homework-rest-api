@@ -1,6 +1,7 @@
 const { User } = require("../models/user");
 const { ctrlWrapper, HttpError } = require("../helpers");
 const bcrypt = require("bcrypt");
+// const gravatar = require("gravatar");
 
 const jwt = require("jsonwebtoken");
 const { SECRET_KEY } = process.env;
@@ -8,11 +9,18 @@ const { SECRET_KEY } = process.env;
 const register = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
+  // const avatarURL = gravatar.url(email);
+  // console.log(avatarURL);
+
   if (user) {
     throw HttpError(409, "Email in use");
   }
   const hashPassword = await bcrypt.hash(password, 10);
-  const newUser = await User.create({ ...req.body, password: hashPassword });
+  const newUser = await User.create({
+    ...req.body,
+    password: hashPassword,
+    // avatarURL,
+  });
   res.status(201).json({
     user: {
       email: newUser.email,
@@ -62,3 +70,24 @@ module.exports = {
   logout: ctrlWrapper(logout),
   current: ctrlWrapper(current),
 };
+// const subscription = async (req, res) => {
+//   const { userId } = req.params;
+//   const result = await User.findByIdAndUpdate(userId, req.body, {
+//     new: true,
+//   });
+//   if (!result) {
+//     throw HttpError(404, "Not found");
+//   }
+//   res.json(result);
+// };
+// subscription: ctrlWrapper(subscription),
+// router.patch(
+//   "/:userId",
+//   authenticate,
+//   isValidId,
+//   validateBody(schemas.subscriptionSchema, "Missing field subscription"),
+//   ctrl.subscription
+// );
+// const subscriptionSchema = Joi.object({
+//   favorite: Joi.boolean().required(),
+// });
