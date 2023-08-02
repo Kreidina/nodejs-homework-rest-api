@@ -22,6 +22,7 @@ const contactSchema = new Schema(
       required: true,
     },
     favorite: {
+      // type: String,
       type: Boolean,
       default: false,
     },
@@ -40,6 +41,7 @@ const addSchema = Joi.object({
   email: Joi.string().pattern(emailValid).required(),
   phone: Joi.string().pattern(phoneValid).required(),
   favorite: Joi.boolean(),
+  // favorite: Joi.string(),
 });
 
 const favoriteShema = Joi.object({
